@@ -1,12 +1,12 @@
 import time
 
 class TrafficLight:
-    color = ['Red', 'Yellow', 'Green']
+    __color = ['Red', 'Yellow', 'Green']
 
     def running(self):
         i = 0
         while i < 3:
-            print('Change color ', {TrafficLight.color[i]})
+            print('Change color ', {TrafficLight.__color[i]})
             if i == 0:
                 time.sleep(7)
             elif i == 1:
