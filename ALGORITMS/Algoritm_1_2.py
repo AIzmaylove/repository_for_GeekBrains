@@ -8,7 +8,7 @@ def find_min_n(arg):
     return result
 
 
-# O(N)
+# O(N^2)
 def find_min_n2(arg):
     for i in range(0, len(arg) - 1):
         for j in range(i + 1, len(arg)):
