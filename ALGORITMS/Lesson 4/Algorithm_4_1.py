@@ -23,3 +23,6 @@ print(timeit("func_1(nums)", globals=globals()))
 print(timeit("func2(nums)", globals=globals()))
 print(timeit("func2(nums)", globals=globals()))
 print(timeit("func2(nums)", globals=globals()))
+
+""" получается, три измерения второй функции, показывают время быстрее 
+сделали то, что вы сказали на уроке, записали функцию через list comprehension """
