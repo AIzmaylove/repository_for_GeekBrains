@@ -1,2 +1,1 @@
-# repository_for_GeekBrains
-Trying to work with GIT
+# Find mistakes of my homework project
