@@ -1,13 +1,13 @@
 import React from 'react'
 
-const ProjectsItem = ({Project}) => {
+const ProjectItem = ({Project}) => {
     return (
         <tr>
             <td>
                 {Project.title}
             </td>
             <td>
-                {Project.Users}
+                {Project.users}
             </td>
             <td>
                 {Project.link_to_repo}
@@ -29,7 +29,7 @@ const ProjectsList = ({Projects}) => {
                 Link
             </th>
 
-            {Projects.map((Project)  => <ProjectsItem Project={Project} />)}
+            {Projects.map((Project)  => <ProjectItem Project={Project} />)}
         </table>
     )
 }

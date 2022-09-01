@@ -62,7 +62,7 @@ class App extends React.Component{
                 const Project = response.data
                 this.setState(
                     {
-                        'Project': Project
+                        'Projects': Project
                     }
                 )
 
@@ -96,14 +96,17 @@ class App extends React.Component{
                         <li> <Link to="/">Users</Link> </li>
                         <li> <Link to="/authors">Authors</Link> </li>
                         <li> <Link to="/projects">Projects</Link> </li>
-                        <li> <Link to="/ToDo">ToDo</Link> </li>
+                        <li> <Link to="/ToDos">ToDo</Link> </li>
                     </nav>
 
                     <Routes>
                         <Route exact path='/' element={<UsersList CustomUsers={this.state.CustomUsers} />} />
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} />
-                        <Route exact path='/project' element={<ProjectsList Projects={this.state.Projects} />} />
-                        <Route exact path='/todo' element={<ToDosList ToDos={this.state.ToDos} />} />
+                        <Route path='/projects'>
+                            <Route index element={<ProjectsList Projects={this.state.Projects} />} />
+                            <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
+                        </Route>
+                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
                     </Routes>
                 </BrowserRouter>
             </div>
