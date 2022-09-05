@@ -4,6 +4,7 @@ import AuthorList from './components/AuthorList.js'
 import UsersList from './components/UsersList.js'
 import ProjectsList from './components/ProjectsList.js'
 import ToDosList from './components/ToDosList.js'
+import LoginForm from './components/LoginForm.js'
 import Navbar from './components/Menu.js'
 import Footer from './components/Footer.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate} from 'react-router-dom'
@@ -18,15 +19,53 @@ class App extends React.Component{
             'authors':[],
             'CustomUsers':[],
             'Projects':[],
-            'ToDo':[]
+            'ToDo':[],
+            'token': ''
         }
     }
 
+    obtainAuthToken(login, password) {
+        axios
+            .post('http://localhost:8000/api-auth-token/', {
+                'username': login,
+                'password': password
+            })
+            .then(response => {
+                const token = response.data.token
+                console.log('token:', token)
+                localStorage.setItem('token', token)
+                this.setState({
+                    'token': token
+                },this.getData)
+             })
+            .catch(error => console.log(error))
+    }
 
+    isAuth() {
+        return this.state.token != ''
+    }
 
     componentDidMount() {
+        let token = localStorage.getItem('token')
+        this.setState({
+            'token': token
+        },this.getData)
+    }
+
+    getHeaders() {
+        if (this.isAuth()) {
+            return {
+                'Authorization': 'Token ' + this.state.token
+            }
+        }
+        return {}
+    }
+
+    getData() {
+        let headers = this.getHeaders()
+
         axios
-             .get('http://localhost:8000/api/CustomUser/')
+             .get('http://localhost:8000/api/CustomUser/', {'headers': headers})
              .then(response => {
                 const CustomUsers = response.data
                 this.setState(
@@ -42,7 +81,7 @@ class App extends React.Component{
 
 
         axios
-            .get('http://localhost:8000/api/authors/')
+            .get('http://localhost:8000/api/authors/', {'headers': headers})
             .then(response => {
                 const authors = response.data
                 this.setState(
@@ -57,7 +96,7 @@ class App extends React.Component{
             .catch(error => console.log(error))
 
         axios
-            .get('http://localhost:8000/api/Project/')
+            .get('http://localhost:8000/api/Project/', {'headers': headers})
             .then(response => {
                 const Project = response.data
                 this.setState(
@@ -72,7 +111,7 @@ class App extends React.Component{
             .catch(error => console.log(error))
 
         axios
-            .get('http://localhost:8000/api/ToDo/')
+            .get('http://localhost:8000/api/ToDo/', {'headers': headers})
             .then(response => {
                 const ToDos = response.data
                 this.setState(
@@ -88,6 +127,13 @@ class App extends React.Component{
     }
 
 
+    logOut(){
+        localStorage.setItem('token', '')
+        this.setState({
+            'token': ''
+        },this.getData)
+    }
+
     render() {
         return (
             <div>
@@ -96,17 +142,21 @@ class App extends React.Component{
                         <li> <Link to="/">Users</Link> </li>
                         <li> <Link to="/authors">Authors</Link> </li>
                         <li> <Link to="/projects">Projects</Link> </li>
-                        <li> <Link to="/ToDos">ToDo</Link> </li>
+                        <li> <Link to="/ToDo">ToDo</Link> </li>
+                        <li> {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to="/login">Login</Link> } </li>
+
                     </nav>
 
                     <Routes>
                         <Route exact path='/' element={<UsersList CustomUsers={this.state.CustomUsers} />} />
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} />
+                        <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login,password)}/>} />
+                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
                         <Route path='/projects'>
                             <Route index element={<ProjectsList Projects={this.state.Projects} />} />
                             <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
                         </Route>
-                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
+
                     </Routes>
                 </BrowserRouter>
             </div>

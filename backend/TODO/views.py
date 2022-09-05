@@ -4,6 +4,7 @@ from .models import Project, ToDo
 from .serializers import ProjectModelSerializer, ToDoModelSerializer
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import TodoFilter
 
@@ -12,6 +13,7 @@ from .filters import TodoFilter
 #     default_limit = 10
 
 class ProjectModelViewSet(ModelViewSet):
+
     serializer_class = ProjectModelSerializer
     queryset = Project.objects.all()
 
@@ -25,6 +27,7 @@ class ProjectModelViewSet_limited(
 ):
 
     # pagination_class = ProjectLimitOffsetPagination
+    permission_classes = [DjangoModelPermissions]
     serializer_class = ProjectModelSerializer
     queryset = Project.objects.all()
 
@@ -53,6 +56,7 @@ class ToDoModelViewSet_limited(
     GenericViewSet
 ):
     # pagination_class = ToDoLimitOffsetPagination
+    permission_classes = [DjangoModelPermissions]
     serializer_class = ToDoModelSerializer
     queryset = ToDo.objects.all()
     filter_backends = [DjangoFilterBackend]
