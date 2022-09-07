@@ -42,7 +42,7 @@ class App extends React.Component{
     }
 
     isAuth() {
-        return this.state.token != ''
+        return !!this.state.token
     }
 
     componentDidMount() {
@@ -68,62 +68,53 @@ class App extends React.Component{
              .get('http://localhost:8000/api/CustomUser/', {'headers': headers})
              .then(response => {
                 const CustomUsers = response.data
-                this.setState(
-                    {
-                        'CustomUsers': CustomUsers
-                    }
-                )
-
-                this.state.CustomUsers = CustomUsers
-
+                this.setState({
+                    'CustomUsers': CustomUsers
+                })
              })
-             .catch(error => console.log(error))
-
+             .catch(error => {
+                console.log(error)
+                this.setState({'CustomUsers': [] })
+             })
 
         axios
             .get('http://localhost:8000/api/authors/', {'headers': headers})
             .then(response => {
                 const authors = response.data
-                this.setState(
-                    {
+                this.setState({
                         'authors': authors
-                    }
-                )
-
-                this.state.authors = authors
-
+                    })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'authors': [] })
+             })
 
         axios
             .get('http://localhost:8000/api/Project/', {'headers': headers})
             .then(response => {
                 const Project = response.data
-                this.setState(
-                    {
+                this.setState({
                         'Projects': Project
-                    }
-                )
-
-                this.state.Project = Project
-
+                    })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'Projects': [] })
+             })
 
         axios
             .get('http://localhost:8000/api/ToDo/', {'headers': headers})
             .then(response => {
                 const ToDos = response.data
-                this.setState(
-                    {
+                this.setState({
                         'ToDos': ToDos
-                    }
-                )
-
-                this.state.ToDos = ToDos
-
+                    })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'ToDos': [] })
+             })
     }
 
 
@@ -151,7 +142,7 @@ class App extends React.Component{
                         <Route exact path='/' element={<UsersList CustomUsers={this.state.CustomUsers} />} />
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login,password)}/>} />
-                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
+                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDo} />} />
                         <Route path='/projects'>
                             <Route index element={<ProjectsList Projects={this.state.Projects} />} />
                             <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
