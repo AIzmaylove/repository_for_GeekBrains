@@ -133,7 +133,7 @@ class App extends React.Component{
                         <li> <Link to="/">Users</Link> </li>
                         <li> <Link to="/authors">Authors</Link> </li>
                         <li> <Link to="/projects">Projects</Link> </li>
-                        <li> <Link to="/ToDo">ToDo</Link> </li>
+                        <li> <Link to="/ToDos">ToDo</Link> </li>
                         <li> {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to="/login">Login</Link> } </li>
 
                     </nav>
@@ -142,7 +142,7 @@ class App extends React.Component{
                         <Route exact path='/' element={<UsersList CustomUsers={this.state.CustomUsers} />} />
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login,password)}/>} />
-                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDo} />} />
+                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
                         <Route path='/projects'>
                             <Route index element={<ProjectsList Projects={this.state.Projects} />} />
                             <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
