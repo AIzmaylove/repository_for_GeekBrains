@@ -30,3 +30,7 @@ class AutorModelSerializer(ModelSerializer):
         model = Author
         fields = '__all__'
 
+class AutorModelSerializerV2(ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ['id', 'first_name', 'last_name']

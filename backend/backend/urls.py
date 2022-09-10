@@ -20,6 +20,19 @@ from rest_framework.authtoken import views
 from library.views import AuthorModelViewSet, author_get, author_post
 from users.views import CustomUserModelViewSet, CustomUserModelViewSet_limited
 from TODO.views import ProjectModelViewSet, ToDoModelViewSet, ProjectModelViewSet_limited, ToDoModelViewSet_limited
+from drf_yasg.views import get_schema_view
+from drf_yasg.openapi import Info, License, Contact
+
+schema_view = get_schema_view(
+    Info(
+        title='Library',
+        default_version='1.0',
+        description='some description',
+        license=License(name='MIT'),
+        contact=Contact(email='some@email.com')
+    )
+
+)
 
 
 router = DefaultRouter()
@@ -40,8 +53,8 @@ urlpatterns = [
     path('author_get/', author_get),
     path('author_get/<int:pk>', author_get),
     path('author_post/', author_post),
-    path('author_post/<int:pk>', author_post)
-
+    path('author_post/<int:pk>', author_post),
+    path('swagger', schema_view.with_ui())
     # path('project/', )
 
 ]

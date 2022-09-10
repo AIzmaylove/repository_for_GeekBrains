@@ -5,13 +5,14 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
-from .serializers import CustomUserModelSerializer
+from .serializers import CustomUserModelSerializer, CustomUserModelSerializerV2
 from rest_framework.decorators import action
 
 
 class CustomUserModelViewSet(ModelViewSet):
     serializer_class = CustomUserModelSerializer
     queryset = CustomUser.objects.all()
+
 
 
 class CustomUserModelViewSet_limited(
@@ -22,8 +23,13 @@ class CustomUserModelViewSet_limited(
 ):
 
     permission_classes = [DjangoModelPermissions]
-    serializer_class = CustomUserModelSerializer
+    # serializer_class = CustomUserModelSerializer
     queryset = CustomUser.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.version == '3.0':
+            return CustomUserModelSerializerV2
+        return CustomUserModelSerializer
 
     @action(detail=True, methods=['get'])
     def get_CustomUser_name(self, request, pk):

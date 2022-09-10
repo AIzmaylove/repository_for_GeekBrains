@@ -7,14 +7,18 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 from .models import Author
-from .serializers import AutorModelSerializer, AuthorSerializer
+from .serializers import AutorModelSerializer, AuthorSerializer, AutorModelSerializerV2
 
 
 class AuthorModelViewSet(ModelViewSet):
     permission_classes = [DjangoModelPermissions]
-    serializer_class = AutorModelSerializer
+    # serializer_class = AutorModelSerializer
     queryset = Author.objects.all()
 
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return AutorModelSerializerV2
+        return AutorModelSerializer
 
 def author_get(request, pk=None):
     if pk is not None:

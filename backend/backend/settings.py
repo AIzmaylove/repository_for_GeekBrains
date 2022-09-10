@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'corsheaders',
     'library',
     'users',
@@ -107,6 +108,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ],
+
     # http://127.0.0.1:8002/api/authors/
     # http://127.0.0.1:8002/api/2.0/authors/
     # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
@@ -120,8 +122,8 @@ REST_FRAMEWORK = {
     # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.HostNameVersioning'
 
     # http://somesite.com/api/authors/
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning'
-
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning'
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning'
 }
 
 if DEBUG:
