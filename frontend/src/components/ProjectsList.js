@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProjectItem = ({Project}) => {
+const ProjectItem = ({Project, deleteProject}) => {
     return (
         <tr>
             <td>
@@ -12,11 +12,15 @@ const ProjectItem = ({Project}) => {
             <td>
                 {Project.link_to_repo}
             </td>
+            <td>
+                <button onClick={() => deleteProject(Project.id) }type='button'> Delete</button>
+            </td>
         </tr>
     )
 }
 
-const ProjectsList = ({Projects}) => {
+const ProjectsList = ({Projects, deleteProject}) => {
+    let filtered_Projects = Projects.filter(Project => Project.is_active == 1)
     return (
         <table>
             <th>
@@ -29,7 +33,7 @@ const ProjectsList = ({Projects}) => {
                 Link
             </th>
 
-            {Projects.map((Project)  => <ProjectItem Project={Project} />)}
+            {Projects.map((Project) => <ProjectItem Project={Project} deleteProject={deleteProject}/>)}
         </table>
     )
 }

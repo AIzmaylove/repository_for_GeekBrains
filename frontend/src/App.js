@@ -5,6 +5,8 @@ import UsersList from './components/UsersList.js'
 import ProjectsList from './components/ProjectsList.js'
 import ToDosList from './components/ToDosList.js'
 import LoginForm from './components/LoginForm.js'
+import ToDoForm from './components/ToDoForm.js'
+import ProjectForm from './components/ProjectForm.js'
 import Navbar from './components/Menu.js'
 import Footer from './components/Footer.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate} from 'react-router-dom'
@@ -45,6 +47,81 @@ class App extends React.Component{
         return !!this.state.token
     }
 
+
+//    create_project(title, link_to_repo, users) {
+//        const headers = this.get_headers()
+//        const data = { title: title, link_to_repo: link_to_repo, users: [parseInt(users, 10)] }
+//        axios
+//            .post('http://127.0.0.1:8000/api/projects/', data, { headers })
+//            .then(response => {
+//                let new_project = response.data
+//                const users = this.state.users.filter((item) => item.id === new_project.users)[0]
+//                new_project.users = users
+//                this.setState({ projects: [...this.state.projects, new_project] })
+//            }).catch(error => console.log(error))
+//    }
+
+
+    create_project(title, link_to_repo, users){
+        console.log(title, link_to_repo, users)
+
+        let headers = this.getHeaders()
+
+        axios
+             .post('http://localhost:8000/api/projects/',{'title': title, 'link_to_repo': link_to_repo, 'users': users} , {'headers': headers})
+             .then(response => {
+                this.getData()
+             })
+             .catch(error => {
+                console.log(error)
+             })
+
+    }
+
+     deleteProject(id) {
+        console.log(id)
+        const headers = this.get_headers()
+        axios
+            .delete('http://127.0.0.1:8000/api/projects/${id}', {'headers': headers})
+            .then(response => {
+                this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
+            })
+            .catch(error => console.log(error))
+    }
+
+
+
+
+    create_todo(title, project){
+        console.log(title, project)
+
+        let headers = this.getHeaders()
+
+        axios
+             .post('http://localhost:8000/api/ToDos/',{'title': title, 'project': project} , {'headers': headers})
+             .then(response => {
+                this.getData()
+             })
+             .catch(error => {
+                console.log(error)
+             })
+
+    }
+
+    deleteToDo(id) {
+        console.log(id)
+        const headers = this.get_headers()
+        axios
+            .delete('http://127.0.0.1:8000/api/ToDos/${id}', {'headers': headers})
+            .then(response => {
+                this.setState({ToDos: this.state.ToDos.filter((item)=>item.id !== id)})
+            })
+            .catch(error => console.log(error))
+    }
+
+
+
+
     componentDidMount() {
         let token = localStorage.getItem('token')
         this.setState({
@@ -60,6 +137,8 @@ class App extends React.Component{
         }
         return {}
     }
+
+
 
     getData() {
         let headers = this.getHeaders()
@@ -115,6 +194,8 @@ class App extends React.Component{
                 console.log(error)
                 this.setState({'ToDos': [] })
              })
+
+
     }
 
 
@@ -125,6 +206,8 @@ class App extends React.Component{
         },this.getData)
     }
 
+
+
     render() {
         return (
             <div>
@@ -134,6 +217,8 @@ class App extends React.Component{
                         <li> <Link to="/authors">Authors</Link> </li>
                         <li> <Link to="/projects">Projects</Link> </li>
                         <li> <Link to="/ToDos">ToDo</Link> </li>
+                        <li> <Link to="/create_todo">Create ToDo</Link> </li>
+                        <li> <Link to="/create_project">Create Project</Link> </li>
                         <li> {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to="/login">Login</Link> } </li>
 
                     </nav>
@@ -142,12 +227,15 @@ class App extends React.Component{
                         <Route exact path='/' element={<UsersList CustomUsers={this.state.CustomUsers} />} />
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login,password)}/>} />
-                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
+//                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
+                        <Route exact path='/ToDos' element={() => <ToDosList ToDos={this.state.ToDos} deleteToDo={(id)=>this.deleteToDo(id)} />} />
+                        <Route exact path='/create_todo' element={<ToDoForm ToDos={this.state.ToDos} />} />
+
                         <Route path='/projects'>
                             <Route index element={<ProjectsList Projects={this.state.Projects} />} />
                             <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
                         </Route>
-
+                        <Route exact path='/create_project' element={<ProjectForm CustomUsers={this.state.CustomUsers} create_project={(title, link_to_repo, users) => this.create_project(title, link_to_repo, users)} />} />
                     </Routes>
                 </BrowserRouter>
             </div>

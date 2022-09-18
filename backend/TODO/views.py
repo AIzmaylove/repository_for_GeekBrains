@@ -62,9 +62,9 @@ class ToDoModelViewSet_limited(
     filter_backends = [DjangoFilterBackend]
     filterset_class = TodoFilter
 
-
-    def perform_destroy(self, instance):
-        super().perform_destroy(instance)
+    #
+    # def perform_destroy(self, instance):
+    #     super().perform_destroy(instance)
 
         # instance.is_deleted = True
         # instance.save()
