@@ -43,7 +43,7 @@ router.register('authors', AuthorModelViewSet)
 router.register('CustomUser', CustomUserModelViewSet_limited)
 #router.register('Project', ProjectModelViewSet)
 router.register('Project', ProjectModelViewSet_limited)
-# router.register('ToDo', ToDoModelViewSet)
+
 router.register('ToDo', ToDoModelViewSet_limited)
 
 

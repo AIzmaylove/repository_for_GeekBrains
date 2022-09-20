@@ -68,7 +68,7 @@ class App extends React.Component{
         let headers = this.getHeaders()
 
         axios
-             .post('http://localhost:8000/api/projects/',{'title': title, 'link_to_repo': link_to_repo, 'users': users} , {'headers': headers})
+             .post('http://localhost:8000/api/Project/',{'title': title, 'link_to_repo': link_to_repo, 'users': users} , {'headers': headers})
              .then(response => {
                 this.getData()
              })
@@ -82,7 +82,7 @@ class App extends React.Component{
         console.log(id)
         const headers = this.get_headers()
         axios
-            .delete('http://127.0.0.1:8000/api/projects/${id}', {'headers': headers})
+            .delete('http://localhost:8000/api/Project/${id}', {'headers': headers})
             .then(response => {
                 this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
             })
@@ -98,7 +98,7 @@ class App extends React.Component{
         let headers = this.getHeaders()
 
         axios
-             .post('http://localhost:8000/api/ToDos/',{'title': title, 'project': project} , {'headers': headers})
+             .post('http://localhost:8000/api/ToDo/',{'title': title, 'project': project} , {'headers': headers})
              .then(response => {
                 this.getData()
              })
@@ -112,7 +112,7 @@ class App extends React.Component{
         console.log(id)
         const headers = this.get_headers()
         axios
-            .delete('http://127.0.0.1:8000/api/ToDos/${id}', {'headers': headers})
+            .delete('http://localhost:8000/api/ToDo/${id}', {'headers': headers})
             .then(response => {
                 this.setState({ToDos: this.state.ToDos.filter((item)=>item.id !== id)})
             })
@@ -215,7 +215,7 @@ class App extends React.Component{
                     <nav>
                         <li> <Link to="/">Users</Link> </li>
                         <li> <Link to="/authors">Authors</Link> </li>
-                        <li> <Link to="/projects">Projects</Link> </li>
+                        <li> <Link to="/Project">Projects</Link> </li>
                         <li> <Link to="/ToDos">ToDo</Link> </li>
                         <li> <Link to="/create_todo">Create ToDo</Link> </li>
                         <li> <Link to="/create_project">Create Project</Link> </li>
@@ -231,7 +231,7 @@ class App extends React.Component{
                         <Route exact path='/ToDos' element={() => <ToDosList ToDos={this.state.ToDos} deleteToDo={(id)=>this.deleteToDo(id)} />} />
                         <Route exact path='/create_todo' element={<ToDoForm ToDos={this.state.ToDos} />} />
 
-                        <Route path='/projects'>
+                        <Route path='/Project'>
                             <Route index element={<ProjectsList Projects={this.state.Projects} />} />
                             <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
                         </Route>

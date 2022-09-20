@@ -21,6 +21,7 @@ class ToDo(models.Model):
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
     updated_at = models.DateTimeField(default=timezone.now, verbose_name='Дата последнего изменения')
+    is_deleted = models.BooleanField(default=False, verbose_name='Удален')
 
     date_from = filters.DateFilter(field_name='created_at', lookup_expr='date_gte')
     date_to = filters.DateFilter(field_name='created_at', lookup_expr='date_lte')
