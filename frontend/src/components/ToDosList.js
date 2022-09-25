@@ -4,17 +4,18 @@ const ToDoItem = ({ToDo, deleteToDo}) => {
     return (
         <tr>
             <td>
+                {ToDo.title}
+            </td>
+            <td>
                 {ToDo.project}
             </td>
             <td>
                 {ToDo.CreatorUser}
             </td>
             <td>
-                {ToDo.title}
+                {ToDo.description}
             </td>
-            <td>
-                {ToDo.created_at}
-            </td>
+
             <td>
                 <button onClick={() => deleteToDo(ToDo.id) }type='button'> Delete</button>
             </td>
@@ -28,17 +29,18 @@ const ToDosList = ({ToDos, deleteToDo}) => {
         <table>
             <tr>
                 <th>
-                    Project
-                </th>
-                <th>
-                    Creator
-                </th>
-                <th>
                     Title
                 </th>
                 <th>
-                    Date
+                    project
                 </th>
+                <th>
+                    CreatorUser
+                </th>
+                <th>
+                    description
+                </th>
+
                 <th></th>
             </tr>
 

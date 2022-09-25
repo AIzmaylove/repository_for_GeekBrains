@@ -6,15 +6,10 @@ class ToDoForm extends React.Component{
 
         this.state = {
             'title': '',
-            'project': 0
-//            'CreatorUser'
-//            'description'
-//            'completed'
-//            'created_at'
-//            'updated_at'
-//
-//            'date_from'
-//            'date_to'
+            'project': '',
+            'CreatorUser': [],
+            'description': '',
+            'completed': '',
         }
     }
 
@@ -24,12 +19,6 @@ class ToDoForm extends React.Component{
         })
     }
 
-
-//    handlePasswordChange(event) {
-//        this.setState({
-//            'password': event.target.value
-//        })
-//    }
 
     handleProjectSelect(event) {
         if (!event.target.selectedOptions) {
@@ -51,8 +40,7 @@ class ToDoForm extends React.Component{
 
 
     handleSubmit(event) {
-        this.props.create_todo(this.state.title, this.state.project)
-        console.log(this.state.title, this.state.project)
+        this.props.create_todo(this.state.title, this.state.project, this.state.CreatorUser, this.state.description)
         event.preventDefault()
     }
 
@@ -61,10 +49,14 @@ class ToDoForm extends React.Component{
             <div>
                 <form onSubmit={(event)=> this.handleSubmit(event)}>
                     <input type="text" name="title" placeholder="title" value={this.state.title} onChange={(event) => this.handleChange(event)}/>
-                    <select onChange={(event) => this.handleProjectSelect(event)}>
 
+                    <select multiple onChange={(event) => this.handleProjectSelect(event)}>
                         {this.props.ToDos.map((ToDo) => <option value={ ToDo.id }>{ToDo.project} </option> )}
                     </select>
+
+                    <input type="text" name="description" placeholder="description" value={this.state.description} onChange={(event) => this.handleChange(event)}/>
+
+
                     <input type="submit" value="Create" />
                 </form>
             </div>

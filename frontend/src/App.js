@@ -78,16 +78,32 @@ class App extends React.Component{
 
     }
 
-     deleteProject(id) {
-        console.log(id)
-        const headers = this.get_headers()
+    deleteProject(projectId) {
+        let headers = this.getHeaders()
+
         axios
-            .delete('http://localhost:8000/api/Project/${id}', {'headers': headers})
-            .then(response => {
-                this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
+          .delete('http://localhost:8000/api/Project/${projectId}', { headers })
+          .then(response => {
+            this.setState({
+              'projects': this.state.projects.filter((project) => project.id != projectId)
             })
-            .catch(error => console.log(error))
-    }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+
+//
+//     deleteProject(id) {
+//        console.log(id)
+//        const headers = this.get_headers()
+//        axios
+//            .delete('http://localhost:8000/api/Project/${id}', {'headers': headers})
+//            .then(response => {
+//                this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
+//            })
+//            .catch(error => console.log(error))
+//    }
 
 
 
@@ -108,16 +124,34 @@ class App extends React.Component{
 
     }
 
-    deleteToDo(id) {
-        console.log(id)
-        const headers = this.get_headers()
+
+    
+    deleteToDo(ToDoId) {
+        let headers = this.getHeaders()
+    
         axios
-            .delete('http://localhost:8000/api/ToDo/${id}', {'headers': headers})
-            .then(response => {
-                this.setState({ToDos: this.state.ToDos.filter((item)=>item.id !== id)})
+          .delete('http://localhost:8000/api/ToDo/${ToDoId}', { headers })
+          .then(response => {
+            this.setState({
+              'ToDos': this.state.projects.filter((ToDo) => ToDo.id != ToDoId)
             })
-            .catch(error => console.log(error))
-    }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    
+//    deleteToDo(id) {
+//        console.log(id)
+//        const headers = this.get_headers()
+//        axios
+//            .delete('http://localhost:8000/api/ToDo/${id}', {'headers': headers})
+//            .then(response => {
+//                this.setState({ToDos: this.state.ToDos.filter((item)=>item.id !== id)})
+//            })
+//            .catch(error => console.log(error))
+//    }
+
 
 
 
