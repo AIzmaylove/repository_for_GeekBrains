@@ -78,32 +78,32 @@ class App extends React.Component{
 
     }
 
-    deleteProject(projectId) {
-        let headers = this.getHeaders()
-
-        axios
-          .delete('http://localhost:8000/api/Project/${projectId}', { headers })
-          .then(response => {
-            this.setState({
-              'projects': this.state.projects.filter((project) => project.id != projectId)
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
-
+//    deleteProject(projectId) {
+//        let headers = this.getHeaders()
 //
-//     deleteProject(id) {
-//        console.log(id)
-//        const headers = this.get_headers()
 //        axios
-//            .delete('http://localhost:8000/api/Project/${id}', {'headers': headers})
-//            .then(response => {
-//                this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
+//          .delete('http://localhost:8000/api/Project/${id}', { headers })
+//          .then(response => {
+//            this.setState({
+//              'projects': this.state.projects.filter((project) => project.id !== id)
 //            })
-//            .catch(error => console.log(error))
-//    }
+//          })
+//          .catch(error => {
+//            console.log(error)
+//          })
+//      }
+
+
+     deleteProject(id) {
+        console.log(id)
+        const headers = this.getHeaders()
+        axios
+            .delete('http://localhost:8000/api/Project/${id}', {'headers': headers})
+            .then(response => {
+                this.setState({Projects: this.state.Projects.filter((item)=>item.id !== id)})
+            })
+            .catch(error => console.log(error))
+    }
 
 
 
@@ -264,16 +264,19 @@ class App extends React.Component{
 //                        <Route exact path='/ToDos' element={<ToDosList ToDos={this.state.ToDos} />} />
                         <Route exact path='/ToDos' element={() => <ToDosList ToDos={this.state.ToDos} deleteToDo={(id)=>this.deleteToDo(id)} />} />
                         <Route exact path='/create_todo' element={<ToDoForm ToDos={this.state.ToDos} />} />
-
-                        <Route path='/Project'>
-                            <Route index element={<ProjectsList Projects={this.state.Projects} />} />
-                            <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
-                        </Route>
+                        <Route exact path='/Project' element={<ProjectsList Projects={this.state.Projects} deleteProject={(id)=>this.deleteProject(id)}/>} />
+//                        <Route path='/Project'>
+//                            <Route index element={<ProjectsList Projects={this.state.Projects} deleteProject={(id)=>this.deleteProject(id)}/>} />
+//                            <Route path=':project_id' element={<ProjectsList Projects={this.state.Projects} />} />
+//                        </Route>
                         <Route exact path='/create_project' element={<ProjectForm CustomUsers={this.state.CustomUsers} create_project={(title, link_to_repo, users) => this.create_project(title, link_to_repo, users)} />} />
                     </Routes>
                 </BrowserRouter>
             </div>
         )
+
+
+
 
 //        return (
 //            <div>

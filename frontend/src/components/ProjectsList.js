@@ -4,6 +4,9 @@ const ProjectItem = ({Project, deleteProject}) => {
     return (
         <tr>
             <td>
+                {Project.id}
+            </td>
+            <td>
                 {Project.title}
             </td>
             <td>
@@ -20,9 +23,12 @@ const ProjectItem = ({Project, deleteProject}) => {
 }
 
 const ProjectsList = ({Projects, deleteProject}) => {
-    let filtered_Projects = Projects.filter(Project => Project.is_active == 1)
+
     return (
         <table>
+            <th>
+                ID
+            </th>
             <th>
                 Title
             </th>
