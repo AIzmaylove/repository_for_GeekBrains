@@ -4,6 +4,9 @@ const ToDoItem = ({ToDo, deleteToDo}) => {
     return (
         <tr>
             <td>
+                {ToDo.id}
+            </td>
+            <td>
                 {ToDo.title}
             </td>
             <td>
@@ -24,10 +27,13 @@ const ToDoItem = ({ToDo, deleteToDo}) => {
 }
 
 const ToDosList = ({ToDos, deleteToDo}) => {
-    let filtered_ToDos = ToDos.filter(ToDo => ToDo.is_active == 1)
+
     return (
         <table>
             <tr>
+                <th>
+                    ID
+                </th>
                 <th>
                     Title
                 </th>
