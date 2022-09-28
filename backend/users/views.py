@@ -1,0 +1,37 @@
+from rest_framework import mixins
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated
+from .models import CustomUser
+from .serializers import CustomUserModelSerializer, CustomUserModelSerializerV2
+from rest_framework.decorators import action
+
+
+class CustomUserModelViewSet(ModelViewSet):
+    serializer_class = CustomUserModelSerializer
+    queryset = CustomUser.objects.all()
+
+
+
+class CustomUserModelViewSet_limited(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    GenericViewSet
+):
+
+    permission_classes = [DjangoModelPermissions]
+    # serializer_class = CustomUserModelSerializer
+    queryset = CustomUser.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.version == '3.0':
+            return CustomUserModelSerializerV2
+        return CustomUserModelSerializer
+
+    @action(detail=True, methods=['get'])
+    def get_CustomUser_name(self, request, pk):
+        customUser = get_object_or_404(CustomUser, pk=pk)
+        return Response({'first_name': str(customUser.first_name)})
